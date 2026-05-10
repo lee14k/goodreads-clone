@@ -13,16 +13,19 @@ npm run dev
 
 Open http://localhost:3000 and sign in with `APP_PASSWORD`.
 
-## Deploy to Fly.io
+## Deploy to Railway
 
-```bash
-fly launch --no-deploy --copy-config
-fly volumes create bookshelf_data --size 1 --region iad
-fly secrets set APP_PASSWORD=... SESSION_SECRET=...
-fly deploy
-```
+1. Push this repo to GitHub.
+2. In Railway, **New Project → Deploy from GitHub** and pick the repo. Railway detects the `Dockerfile` automatically.
+3. **Variables** — add:
+   - `APP_PASSWORD` — your password
+   - `SESSION_SECRET` — 32+ random characters
+   - `DATABASE_PATH=/data/books.db`
+4. **Volumes** — attach a new volume to the service, mount path `/data`. (1 GB is plenty.)
+5. **Networking** — generate a public domain. Railway sets `PORT` for you; the Dockerfile already listens on it.
+6. Deploy.
 
-Data lives on the `/data` volume as `books.db`.
+Data lives on the `/data` volume as `books.db` and survives redeploys.
 
 ## Stack
 

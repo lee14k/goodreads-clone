@@ -16,6 +16,7 @@ RUN npm run build
 FROM node:20-bookworm-slim AS run
 WORKDIR /app
 ENV NODE_ENV=production
+ENV HOSTNAME=0.0.0.0
 ENV PORT=3000
 ENV DATABASE_PATH=/data/books.db
 COPY --from=build /app/.next/standalone ./
