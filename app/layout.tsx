@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Lora } from "next/font/google";
+import { Nav } from "@/components/Nav";
+import { isLoggedIn } from "@/lib/auth";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
@@ -10,10 +12,12 @@ export const metadata: Metadata = {
   description: "A personal reading tracker.",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const showNav = await isLoggedIn();
   return (
     <html lang="en" className={`${inter.variable} ${lora.variable}`}>
       <body className="min-h-screen bg-paper text-ink font-sans antialiased">
+        {showNav && <Nav />}
         {children}
       </body>
     </html>
